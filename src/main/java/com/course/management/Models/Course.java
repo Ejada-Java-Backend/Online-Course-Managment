@@ -30,15 +30,15 @@ public class Course {
     @OneToMany(mappedBy = "course")
     private List<Grade>grades=new ArrayList<>();
 
-    @Override
-    public String toString() {
-        return "Course{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", release_date=" + releaseDate +
-                ", category=" + (category != null ? category.getName() : "null") +
-                ", publisher=" + (publisher != null ? publisher.getUsername() : "null") +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Course{" +
+//                "id=" + id +
+//                ", title='" + title + '\'' +
+//                ", description='" + description + '\'' +
+//                ", release_date=" + releaseDate +
+//                ", category=" + (category != null ? category.getName() : "null") +
+//                ", publisher=" + (publisher != null ? publisher.getUsername() : "null") +
+//                '}';
+//    }
 }

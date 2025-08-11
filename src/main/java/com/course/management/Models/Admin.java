@@ -17,7 +17,6 @@ import java.util.List;
 @SuperBuilder
 @Table(name = "admins")
 public class Admin extends User{
-
     @OneToMany(mappedBy = "publisher")
     private List<Course> courses=new ArrayList<>();
 }
