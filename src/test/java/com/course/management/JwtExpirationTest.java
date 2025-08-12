@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -15,33 +16,32 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@TestPropertySource(properties = {
+        "jwt.secret=your-very-secret-key-which-should-be-long-enough",
+        "jwt.expiration-ms=1000"
+})
 public class JwtExpirationTest {
 
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
     private JwtUtil jwtUtil;
-
-    @BeforeEach
-    void setup() {
-        // Use your real secret but set expiration to 1 second for testing
-        jwtUtil = new JwtUtil("your-very-secret-key-which-should-be-long-enough", 1000);
-    }
 
     @Test
     public void tokenExpiresAfterExpirationTime() throws Exception {
         String token = jwtUtil.generateToken("existingUser");
 
-        // Immediately token should not be expired
+        // Immediately after generation, token should NOT be expired
         assertFalse(jwtUtil.isTokenExpired(token));
 
-        // Wait 2 seconds to exceed expiration
+        // Wait 2 seconds so token expiration is passed
         Thread.sleep(2000);
 
         // Now token should be expired
         assertTrue(jwtUtil.isTokenExpired(token));
 
-        // Using mockMvc to access your secured endpoint with expired token should return 401
+        // Accessing secured endpoint with expired token returns 401 Unauthorized
         mockMvc.perform(get("/api/test/secure")
                         .header("Authorization", "Bearer " + token))
                 .andExpect(status().isUnauthorized());

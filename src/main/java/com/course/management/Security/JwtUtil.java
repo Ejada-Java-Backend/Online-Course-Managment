@@ -1,5 +1,6 @@
 package com.course.management.Security;
 
+import com.course.management.Exceptions.JwtTokenExpiredException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -44,7 +45,14 @@ public class JwtUtil {
 
     public boolean validateToken(String token, String username) {
         final String extractedUsername = extractUsername(token);
-        return (extractedUsername.equals(username) && !isTokenExpired(token));
+
+        if (!extractedUsername.equals(username)) {
+            return false;
+        }
+        if (isTokenExpired(token)) {
+            throw new JwtTokenExpiredException("JWT token has expired");
+        }
+        return true;
     }
 
     public boolean isTokenExpired(String token) {

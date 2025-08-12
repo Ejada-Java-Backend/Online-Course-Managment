@@ -20,7 +20,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UserNotFoundException {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException("User not found: " + username));
 
@@ -30,7 +30,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         } else if (user instanceof Student) {
             role = "STUDENT";
         } else {
-            role = "USER"; // fallback
+            role = "USER";
         }
 
         return org.springframework.security.core.userdetails.User
