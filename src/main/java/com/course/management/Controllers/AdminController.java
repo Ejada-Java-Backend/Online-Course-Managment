@@ -75,8 +75,6 @@ public class AdminController {
         Admin existingAdmin = adminService.getAdminById(id);
         existingAdmin.setUsername(updatedAdmin.getUsername());
         existingAdmin.setEmail(updatedAdmin.getEmail());
-        // Add any other fields you want to update here
-
         Admin savedAdmin = adminService.saveAdmin(existingAdmin);
         return ResponseEntity.ok(savedAdmin);
     }

@@ -4,6 +4,8 @@ import com.course.management.Models.Student;
 import com.course.management.Services.StudentService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/students")
 public class StudentController {
@@ -19,6 +21,12 @@ public class StudentController {
     public Student getStudentById(@PathVariable Long id) {
         return studentService.getStudentById(id);
     }
+
+    @GetMapping
+    public List<Student> getAllStudents() {
+        return studentService.getAllStudents();
+    }
+
 
     @PostMapping
     public Student createStudent(@RequestBody Student student) {
