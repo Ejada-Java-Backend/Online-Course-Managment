@@ -19,4 +19,6 @@ import java.util.List;
 public class Admin extends User{
     @OneToMany(mappedBy = "publisher")
     private List<Course> courses=new ArrayList<>();
+
+
 }
