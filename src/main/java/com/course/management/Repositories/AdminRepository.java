@@ -20,7 +20,7 @@ public interface AdminRepository extends JpaRepository<Admin,Long> {
     boolean existsByEmail(String email);
 
     @EntityGraph(attributePaths = {"courses"})
-    Optional<Admin> findAdminByIdWithCourses(Long id);
+    Optional<Admin> findById(Long id);
 
     @Query("select distinct a FROM Admin a join a.courses c where c.category.id = :categoryId")
     List<Admin> findAdminsByCourseCategory(@Param("categoryId") Long categoryId);

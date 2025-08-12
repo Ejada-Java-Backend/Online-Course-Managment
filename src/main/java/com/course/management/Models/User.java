@@ -20,11 +20,6 @@ public class User {
     private String email;
     private String password;
 
-    public void setPassword(String password) {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        this.password = encoder.encode(password);
-    }
-
     @PrePersist
     @PreUpdate
     private void encodePasswordBeforeSave() {
@@ -34,4 +29,7 @@ public class User {
             this.password = encoder.encode(this.password);
         }
     }
-}
+
+    public String getUsername() { return username; }
+    public String getPassword() { return password; }
+  }
