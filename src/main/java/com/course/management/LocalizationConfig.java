@@ -23,7 +23,7 @@ public class LocalizationConfig implements WebMvcConfigurer {
     @Bean
     public LocaleChangeInterceptor localeChangeInterceptor() {
         LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
-        lci.setParamName("lang"); // URL param to change locale
+        lci.setParamName("lang");
         return lci;
     }
 

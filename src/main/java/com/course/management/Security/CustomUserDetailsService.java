@@ -1,5 +1,6 @@
 package com.course.management.Security;
 
+import com.course.management.Exceptions.UserNotFoundException;
 import com.course.management.Models.Admin;
 import com.course.management.Models.Student;
 import com.course.management.Models.User;
@@ -21,7 +22,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
+                .orElseThrow(() -> new UserNotFoundException("User not found: " + username));
 
         String role;
         if (user instanceof Admin) {
@@ -34,7 +35,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         return org.springframework.security.core.userdetails.User
                 .withUsername(user.getUsername())
-                .password(user.getPassword()) // should already be encoded in DB
+                .password(user.getPassword())
                 .roles(role)
                 .build();
     }
