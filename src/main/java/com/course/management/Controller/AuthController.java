@@ -21,6 +21,10 @@ public class AuthController {
 
     @PostMapping("/login")
     public String login(@RequestParam String username, @RequestParam String password) {
+        if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
+            throw new IllegalArgumentException("Username and password must not be empty");
+        }
+
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(username, password)
         );
