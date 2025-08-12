@@ -6,9 +6,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Repository;
+
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public interface GradeRepository extends JpaRepository<Grade,Long> {
 
     List<Grade> findByStudentId(Long studentId);
@@ -28,17 +31,8 @@ public interface GradeRepository extends JpaRepository<Grade,Long> {
     @Query("select g.student from Grade g where g.course.id = :courseId order by g.score desc")
     List<Student>findTopStudentsByCourseId(@Param("courseId") Long courseId, Pageable pageable);
 
-    /*
-    * function in service =>  public List<Student> getTopNStudentsByCourse(Long courseId, int n) {
-        return gradeRepository.findTopStudentsByCourse(courseId, PageRequest.of(0, n));
-    }
-    *
-    * in controller => @GetMapping("/{courseId}/top-students")
-                       public List<Student> getTopStudents(@PathVariable Long courseId,@RequestParam int n) {
-                       return gradeService.getTopNStudentsByCourse(courseId, n);
-                        }
-    *
-    * */
+
+
 
 
 

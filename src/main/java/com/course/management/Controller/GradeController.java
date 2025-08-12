@@ -1,0 +1,25 @@
+package com.course.management.Controller;
+
+import com.course.management.Models.Student;
+import com.course.management.Repositories.GradeRepository;
+import com.course.management.Services.GradeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+@RestController
+@RequestMapping("/api/grades")
+public class GradeController {
+    private final GradeService gradeService;
+    @Autowired
+    public GradeController(GradeService gradeService)
+    {
+        this.gradeService=gradeService;
+    }
+
+    @GetMapping("/{courseId}/top-students")
+    public List<Student> getTopStudents(@PathVariable Long courseId, @RequestParam int limit) {
+        return gradeService.getTopNStudentsByCourse(courseId, limit);
+    }
+
+}
