@@ -1,4 +1,4 @@
-package com.course.management.Controllers;
+package com.course.management.Controller;
 
 import com.course.management.Models.User;
 import com.course.management.Services.UserService;

@@ -1,4 +1,4 @@
-package com.course.management.Controllers;
+package com.course.management.Controller;
 
 import com.course.management.Models.Review;
 import com.course.management.Services.ReviewService;

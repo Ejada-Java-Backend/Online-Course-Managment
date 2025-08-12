@@ -1,4 +1,4 @@
-package com.course.management.Controllers;
+package com.course.management.Controller;
 
 import com.course.management.Models.Category;
 import com.course.management.Services.CategoryService;
