@@ -8,7 +8,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.STRING)
-@Setter @Getter @ToString @NoArgsConstructor @AllArgsConstructor @SuperBuilder
+@Setter
+@Getter
+@ToString @NoArgsConstructor @AllArgsConstructor @SuperBuilder
 @Table(name = "users")
 public class User {
 
@@ -30,6 +32,4 @@ public class User {
         }
     }
 
-    public String getUsername() { return username; }
-    public String getPassword() { return password; }
-  }
+}

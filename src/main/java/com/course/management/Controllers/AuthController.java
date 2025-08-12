@@ -1,4 +1,4 @@
-package com.course.management.Controller;
+package com.course.management.Controllers;
 
 import com.course.management.Security.JwtUtil;
 import org.springframework.security.authentication.AuthenticationManager;

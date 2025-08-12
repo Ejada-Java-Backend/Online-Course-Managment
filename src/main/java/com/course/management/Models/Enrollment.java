@@ -33,4 +33,9 @@ public class Enrollment {
 
     @Column(nullable = false)
     private LocalDate enrolledAt;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private EnrollmentStatus status;
+
 }

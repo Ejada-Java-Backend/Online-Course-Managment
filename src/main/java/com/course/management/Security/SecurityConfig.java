@@ -46,6 +46,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/students/**").permitAll() //just for testing
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())
