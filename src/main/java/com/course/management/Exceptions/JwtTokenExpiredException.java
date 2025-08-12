@@ -1,6 +1,9 @@
 package com.course.management.Exceptions;
-public class JwtTokenExpiredException extends RuntimeException {
+
+import org.springframework.http.HttpStatus;
+
+public class JwtTokenExpiredException extends BaseException {
     public JwtTokenExpiredException(String message) {
-        super(message);
+        super(message, HttpStatus.UNAUTHORIZED);
     }
 }
