@@ -17,6 +17,7 @@ public class Course {
     private String title;
     private String description;
     private LocalDate releaseDate;
+    private double mark;
     @ManyToOne
     @JoinColumn(name = "category_Id",nullable = false)
     private Category category;
