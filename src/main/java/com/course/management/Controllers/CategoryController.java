@@ -27,47 +27,33 @@ public class CategoryController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Category> getCategoryById(@PathVariable Long id) {
-        try {
-            return ResponseEntity.ok(categoryService.getCategoryById(id));
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
+        Category category = categoryService.getCategoryById(id);
+        return ResponseEntity.ok(category);
     }
 
     @GetMapping("/name/{name}")
     public ResponseEntity<Category> getCategoryByName(@PathVariable String name) {
-        try {
-            return ResponseEntity.ok(categoryService.getCategoryByName(name));
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
+        Category category = categoryService.getCategoryByName(name);
+        return ResponseEntity.ok(category);
     }
 
     @PostMapping
-    public ResponseEntity<?> createCategory(@RequestBody Category category) {
+    public ResponseEntity<Category> createCategory(@RequestBody Category category) {
         Category savedCategory = categoryService.saveCategory(category);
         return new ResponseEntity<>(savedCategory, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateCategory(@PathVariable Long id, @RequestBody Category updatedCategory) {
-        try {
-            Category existingCategory = categoryService.getCategoryById(id);
-            existingCategory.setName(updatedCategory.getName());
-            Category savedCategory = categoryService.saveCategory(existingCategory);
-            return ResponseEntity.ok(savedCategory);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    public ResponseEntity<Category> updateCategory(@PathVariable Long id, @RequestBody Category updatedCategory) {
+        Category existingCategory = categoryService.getCategoryById(id);
+        existingCategory.setName(updatedCategory.getName());
+        Category savedCategory = categoryService.saveCategory(existingCategory);
+        return ResponseEntity.ok(savedCategory);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteCategory(@PathVariable Long id) {
-        try {
-            categoryService.deleteCategory(id);
-            return ResponseEntity.noContent().build();
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
+        categoryService.deleteCategory(id);
+        return ResponseEntity.noContent().build();
     }
 }

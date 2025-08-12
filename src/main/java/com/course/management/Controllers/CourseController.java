@@ -29,11 +29,8 @@ public class CourseController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Course> getCourseById(@PathVariable Long id) {
-        try {
-            return ResponseEntity.ok(courseService.getCourseById(id));
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
+        Course course = courseService.getCourseById(id);
+        return ResponseEntity.ok(course);
     }
 
     @GetMapping("/category/{categoryName}")
@@ -71,31 +68,24 @@ public class CourseController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateCourse(@PathVariable Long id, @RequestBody Course updatedCourse) {
-        try {
-            Course existingCourse = courseService.getCourseById(id);
+    public ResponseEntity<Course> updateCourse(@PathVariable Long id, @RequestBody Course updatedCourse) {
+        Course existingCourse = courseService.getCourseById(id);
 
-            existingCourse.setTitle(updatedCourse.getTitle());
-            existingCourse.setDescription(updatedCourse.getDescription());
-            existingCourse.setCategory(updatedCourse.getCategory());
-            existingCourse.setPublisher(updatedCourse.getPublisher());
-            existingCourse.setReleaseDate(updatedCourse.getReleaseDate());
-            existingCourse.setEnrollments(updatedCourse.getEnrollments());
+        existingCourse.setTitle(updatedCourse.getTitle());
+        existingCourse.setDescription(updatedCourse.getDescription());
+        existingCourse.setCategory(updatedCourse.getCategory());
+        existingCourse.setPublisher(updatedCourse.getPublisher());
+        existingCourse.setReleaseDate(updatedCourse.getReleaseDate());
+        existingCourse.setEnrollments(updatedCourse.getEnrollments());
 
-            Course savedCourse = courseService.saveCourse(existingCourse);
-            return ResponseEntity.ok(savedCourse);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+        Course savedCourse = courseService.saveCourse(existingCourse);
+        return ResponseEntity.ok(savedCourse);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteCourse(@PathVariable Long id) {
-        try {
-            courseService.deleteCourse(id);
-            return ResponseEntity.noContent().build();
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    public ResponseEntity<Void> deleteCourse(@PathVariable Long id) {
+        courseService.deleteCourse(id);
+        return ResponseEntity.noContent().build();
     }
 }
+

@@ -18,15 +18,10 @@ public class EmailController {
     }
 
     @PostMapping("/send")
-    public ResponseEntity<?> sendEmail(@RequestParam String to,
-                                       @RequestParam String subject,
-                                       @RequestParam String body) {
-        try {
-            emailService.sendEmail(to, subject, body);
-            return ResponseEntity.ok("Email sent successfully");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to send email: " + e.getMessage());
-        }
+    public ResponseEntity<String> sendEmail(@RequestParam String to,
+                                            @RequestParam String subject,
+                                            @RequestParam String body) {
+        emailService.sendEmail(to, subject, body);
+        return ResponseEntity.ok("Email sent successfully");
     }
 }

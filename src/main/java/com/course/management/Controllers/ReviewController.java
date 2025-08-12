@@ -27,11 +27,8 @@ public class ReviewController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Review> getReviewById(@PathVariable Long id) {
-        try {
-            return ResponseEntity.ok(reviewService.getReviewById(id));
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
+        Review review = reviewService.getReviewById(id);
+        return ResponseEntity.ok(review);
     }
 
     @GetMapping("/course/{courseId}")
@@ -71,28 +68,20 @@ public class ReviewController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateReview(@PathVariable Long id, @RequestBody Review updatedReview) {
-        try {
-            Review existingReview = reviewService.getReviewById(id);
-            existingReview.setCourse(updatedReview.getCourse());
-            existingReview.setStudent(updatedReview.getStudent());
-            existingReview.setRating(updatedReview.getRating());
-            existingReview.setComment(updatedReview.getComment());
-            existingReview.setCreatedAt(updatedReview.getCreatedAt());
-            Review savedReview = reviewService.saveReview(existingReview);
-            return ResponseEntity.ok(savedReview);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    public ResponseEntity<Review> updateReview(@PathVariable Long id, @RequestBody Review updatedReview) {
+        Review existingReview = reviewService.getReviewById(id);
+        existingReview.setCourse(updatedReview.getCourse());
+        existingReview.setStudent(updatedReview.getStudent());
+        existingReview.setRating(updatedReview.getRating());
+        existingReview.setComment(updatedReview.getComment());
+        existingReview.setCreatedAt(updatedReview.getCreatedAt());
+        Review savedReview = reviewService.saveReview(existingReview);
+        return ResponseEntity.ok(savedReview);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteReview(@PathVariable Long id) {
-        try {
-            reviewService.deleteReview(id);
-            return ResponseEntity.noContent().build();
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    public ResponseEntity<Void> deleteReview(@PathVariable Long id) {
+        reviewService.deleteReview(id);
+        return ResponseEntity.noContent().build();
     }
 }

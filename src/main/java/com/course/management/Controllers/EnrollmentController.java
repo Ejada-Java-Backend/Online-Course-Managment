@@ -24,11 +24,8 @@ public class EnrollmentController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Enrollment> getEnrollmentById(@PathVariable Long id) {
-        try {
-            return ResponseEntity.ok(enrollmentService.getEnrollmentById(id));
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
+        Enrollment enrollment = enrollmentService.getEnrollmentById(id);
+        return ResponseEntity.ok(enrollment);
     }
 
     @PostMapping
@@ -38,78 +35,69 @@ public class EnrollmentController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateEnrollment(@PathVariable Long id, @RequestBody Enrollment updatedEnrollment) {
-        try {
-            Enrollment existing = enrollmentService.getEnrollmentById(id);
-            existing.setStudent(updatedEnrollment.getStudent());
-            existing.setCourse(updatedEnrollment.getCourse());
-            existing.setTerm(updatedEnrollment.getTerm());
-            existing.setStatus(updatedEnrollment.getStatus());
-            Enrollment saved = enrollmentService.saveEnrollment(existing);
-            return ResponseEntity.ok(saved);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    public ResponseEntity<Enrollment> updateEnrollment(@PathVariable Long id, @RequestBody Enrollment updatedEnrollment) {
+        Enrollment existing = enrollmentService.getEnrollmentById(id);
+        existing.setStudent(updatedEnrollment.getStudent());
+        existing.setCourse(updatedEnrollment.getCourse());
+        existing.setTerm(updatedEnrollment.getTerm());
+        existing.setStatus(updatedEnrollment.getStatus());
+        Enrollment saved = enrollmentService.saveEnrollment(existing);
+        return ResponseEntity.ok(saved);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteEnrollment(@PathVariable Long id) {
-        try {
-            enrollmentService.deleteEnrollment(id);
-            return ResponseEntity.noContent().build();
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    public ResponseEntity<Void> deleteEnrollment(@PathVariable Long id) {
+        enrollmentService.deleteEnrollment(id);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/student/{studentId}")
     public ResponseEntity<List<Enrollment>> getEnrollmentsByStudentId(@PathVariable Long studentId) {
-        return ResponseEntity.ok(enrollmentService.getEnrollmentsByStudentId(studentId));
+        List<Enrollment> enrollments = enrollmentService.getEnrollmentsByStudentId(studentId);
+        return ResponseEntity.ok(enrollments);
     }
 
     @GetMapping("/course/{courseId}")
     public ResponseEntity<List<Enrollment>> getEnrollmentsByCourseId(@PathVariable Long courseId) {
-        return ResponseEntity.ok(enrollmentService.getEnrollmentsByCourseId(courseId));
+        List<Enrollment> enrollments = enrollmentService.getEnrollmentsByCourseId(courseId);
+        return ResponseEntity.ok(enrollments);
     }
 
     @GetMapping("/student/{studentId}/course/{courseId}")
     public ResponseEntity<Enrollment> getEnrollmentByStudentAndCourse(@PathVariable Long studentId,
                                                                       @PathVariable Long courseId) {
-        try {
-            return ResponseEntity.ok(enrollmentService.getEnrollmentByStudentAndCourse(studentId, courseId));
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
+        Enrollment enrollment = enrollmentService.getEnrollmentByStudentAndCourse(studentId, courseId);
+        return ResponseEntity.ok(enrollment);
     }
 
     @GetMapping("/term")
     public ResponseEntity<List<Enrollment>> getEnrollmentsByTerm(@RequestParam SemesterTerm term) {
-        return ResponseEntity.ok(enrollmentService.getEnrollmentsByTerm(term));
+        List<Enrollment> enrollments = enrollmentService.getEnrollmentsByTerm(term);
+        return ResponseEntity.ok(enrollments);
     }
 
     @GetMapping("/student/{studentId}/term")
     public ResponseEntity<List<Enrollment>> getEnrollmentsByStudentAndTerm(@PathVariable Long studentId,
                                                                            @RequestParam SemesterTerm term) {
-        return ResponseEntity.ok(enrollmentService.getEnrollmentsByStudentAndTerm(studentId, term));
+        List<Enrollment> enrollments = enrollmentService.getEnrollmentsByStudentAndTerm(studentId, term);
+        return ResponseEntity.ok(enrollments);
     }
 
     @GetMapping("/student/{studentId}/count")
     public ResponseEntity<Long> countEnrollmentsByStudent(@PathVariable Long studentId) {
-        return ResponseEntity.ok(enrollmentService.countEnrollmentsByStudent(studentId));
+        long count = enrollmentService.countEnrollmentsByStudent(studentId);
+        return ResponseEntity.ok(count);
     }
 
     @GetMapping("/course/{courseId}/students/count")
     public ResponseEntity<Long> countDistinctStudentsInCourse(@PathVariable Long courseId) {
-        return ResponseEntity.ok(enrollmentService.countDistinctStudentsInCourse(courseId));
+        long count = enrollmentService.countDistinctStudentsInCourse(courseId);
+        return ResponseEntity.ok(count);
     }
 
     @PatchMapping("/{id}/status")
-    public ResponseEntity<?> updateStatus(@PathVariable Long id, @RequestParam EnrollmentStatus status) {
-        try {
-            Enrollment updated = enrollmentService.updateStatus(id, status);
-            return ResponseEntity.ok(updated);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    public ResponseEntity<Enrollment> updateStatus(@PathVariable Long id, @RequestParam EnrollmentStatus status) {
+        Enrollment updated = enrollmentService.updateStatus(id, status);
+        return ResponseEntity.ok(updated);
     }
 }

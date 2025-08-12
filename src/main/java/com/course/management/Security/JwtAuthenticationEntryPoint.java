@@ -1,4 +1,4 @@
-package com.course.management.Exceptions;
+package com.course.management.Security;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
