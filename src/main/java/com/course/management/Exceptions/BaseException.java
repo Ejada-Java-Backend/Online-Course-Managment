@@ -2,7 +2,7 @@ package com.course.management.Exceptions;
 
 import org.springframework.http.HttpStatus;
 
-public class BaseException extends RuntimeException{
+public abstract class  BaseException extends RuntimeException{
 
     private final HttpStatus status;
 
