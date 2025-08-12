@@ -1,5 +1,7 @@
 package com.course.management.Security;
 
+import com.course.management.Exceptions.JwtAuthenticationException;
+import com.course.management.Exceptions.JwtTokenExpiredException;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -39,23 +41,28 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             token = authHeader.substring(7);
             try {
                 username = jwtUtil.extractUsername(token);
-            } catch (JwtException e) {
-                logger.warn("JWT validation failed: {}");
-            }
-        }
+                if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                    UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-
-            if (jwtUtil.validateToken(token, userDetails.getUsername())) {
-                UsernamePasswordAuthenticationToken authToken =
-                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authToken);
+                    if (jwtUtil.validateToken(token, userDetails.getUsername())) {
+                        UsernamePasswordAuthenticationToken authToken =
+                                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                        authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                        SecurityContextHolder.getContext().setAuthentication(authToken);
+                    }
+                }
+            } catch (JwtTokenExpiredException | JwtException e) {
+                // Token invalid or expired - reject request immediately with 401
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.setContentType("application/json");
+                response.getWriter().write("{\"error\":\"Invalid or expired JWT token\"}");
+                response.getWriter().flush();
+                return;  // stop filter chain, no further processing
             }
         }
 
         filterChain.doFilter(request, response);
     }
+
 
 }
