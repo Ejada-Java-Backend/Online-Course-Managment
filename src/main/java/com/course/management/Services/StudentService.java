@@ -2,6 +2,7 @@ package com.course.management.Services;
 
 import com.course.management.Models.Student;
 import com.course.management.Repositories.StudentRepository;
+import com.course.management.Exceptions.StudentNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,12 +24,12 @@ public class StudentService {
 
     public Student getStudentById(Long id) {
         return studentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Student not found with ID: " + id));
+                .orElseThrow(() -> new StudentNotFoundException("Student not found with ID: " + id));
     }
 
     public Student getStudentByUsername(String username) {
         return studentRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("Student not found with username: " + username));
+                .orElseThrow(() -> new StudentNotFoundException("Student not found with username: " + username));
     }
 
     public List<Student> getStudentsByCourseId(Long courseId) {
@@ -57,7 +58,7 @@ public class StudentService {
 
     public void deleteStudent(Long id) {
         if (!studentRepository.existsById(id)) {
-            throw new RuntimeException("Student not found with ID: " + id);
+            throw new StudentNotFoundException("Student not found with ID: " + id);
         }
         studentRepository.deleteById(id);
     }

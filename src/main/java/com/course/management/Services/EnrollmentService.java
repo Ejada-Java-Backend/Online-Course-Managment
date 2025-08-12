@@ -3,8 +3,8 @@ package com.course.management.Services;
 import com.course.management.Models.Enrollment;
 import com.course.management.Models.EnrollmentStatus;
 import com.course.management.Models.SemesterTerm;
-import com.course.management.Models.Student;
 import com.course.management.Repositories.EnrollmentRepository;
+import com.course.management.Exceptions.EnrollmentNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ public class EnrollmentService {
 
     public Enrollment getEnrollmentById(Long id) {
         return enrollmentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Enrollment not found with ID: " + id));
+                .orElseThrow(() -> new EnrollmentNotFoundException("Enrollment not found with ID: " + id));
     }
 
     public Enrollment saveEnrollment(Enrollment enrollment) {
@@ -31,7 +31,7 @@ public class EnrollmentService {
 
     public void deleteEnrollment(Long id) {
         if (!enrollmentRepository.existsById(id)) {
-            throw new RuntimeException("Enrollment not found with ID: " + id);
+            throw new EnrollmentNotFoundException("Enrollment not found with ID: " + id);
         }
         enrollmentRepository.deleteById(id);
     }
@@ -47,7 +47,7 @@ public class EnrollmentService {
     public Enrollment getEnrollmentByStudentAndCourse(Long studentId, Long courseId) {
         Enrollment enrollment = enrollmentRepository.findByStudentIdAndCourseId(studentId, courseId);
         if (enrollment == null) {
-            throw new RuntimeException("Enrollment not found for student ID: " + studentId + " and course ID: " + courseId);
+            throw new EnrollmentNotFoundException("Enrollment not found for student ID: " + studentId + " and course ID: " + courseId);
         }
         return enrollment;
     }
@@ -68,10 +68,10 @@ public class EnrollmentService {
         return enrollmentRepository.countDistinctStudentsEnrolledInCourse(courseId);
     }
 
- public Enrollment updateStatus(Long enrollmentId, EnrollmentStatus status) {
-     Enrollment enrollment = enrollmentRepository.findById(enrollmentId)
-             .orElseThrow(() -> new RuntimeException("Enrollment not found with ID: " + enrollmentId));
-     enrollment.setStatus(status);
-     return enrollmentRepository.save(enrollment);
- }
+    public Enrollment updateStatus(Long enrollmentId, EnrollmentStatus status) {
+        Enrollment enrollment = enrollmentRepository.findById(enrollmentId)
+                .orElseThrow(() -> new EnrollmentNotFoundException("Enrollment not found with ID: " + enrollmentId));
+        enrollment.setStatus(status);
+        return enrollmentRepository.save(enrollment);
+    }
 }

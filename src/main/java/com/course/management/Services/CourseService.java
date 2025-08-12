@@ -2,6 +2,7 @@ package com.course.management.Services;
 
 import com.course.management.Models.Course;
 import com.course.management.Repositories.CourseRepository;
+import com.course.management.Exceptions.CourseNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class CourseService {
 
     public Course getCourseById(Long id) {
         return courseRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Course not found with ID: " + id));
+                .orElseThrow(() -> new CourseNotFoundException("Course not found with ID: " + id));
     }
 
     public List<Course> getCoursesByCategoryName(String categoryName) {
@@ -53,7 +54,7 @@ public class CourseService {
 
     public void deleteCourse(Long id) {
         if (!courseRepository.existsById(id)) {
-            throw new RuntimeException("Course not found with ID: " + id);
+            throw new CourseNotFoundException("Course not found with ID: " + id);
         }
         courseRepository.deleteById(id);
     }

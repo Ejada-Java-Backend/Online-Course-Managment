@@ -2,6 +2,7 @@ package com.course.management.Services;
 
 import com.course.management.Models.Review;
 import com.course.management.Repositories.ReviewRepository;
+import com.course.management.Exceptions.ReviewNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,7 @@ public class ReviewService {
 
     public Review getReviewById(Long id) {
         return reviewRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Review not found with ID: " + id));
+                .orElseThrow(() -> new ReviewNotFoundException("Review not found with ID: " + id));
     }
 
     public List<Review> getReviewsByCourseId(Long courseId) {
@@ -56,7 +57,7 @@ public class ReviewService {
 
     public void deleteReview(Long id) {
         if (!reviewRepository.existsById(id)) {
-            throw new RuntimeException("Review not found with ID: " + id);
+            throw new ReviewNotFoundException("Review not found with ID: " + id);
         }
         reviewRepository.deleteById(id);
     }

@@ -2,6 +2,7 @@ package com.course.management.Services;
 
 import com.course.management.Models.Category;
 import com.course.management.Repositories.CategoryRepository;
+import com.course.management.Exceptions.CategoryNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,12 +24,12 @@ public class CategoryService {
 
     public Category getCategoryById(Long id) {
         return categoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Category not found with ID: " + id));
+                .orElseThrow(() -> new CategoryNotFoundException("Category not found with ID: " + id));
     }
 
     public Category getCategoryByName(String name) {
         return categoryRepository.findByName(name)
-                .orElseThrow(() -> new RuntimeException("Category not found with name: " + name));
+                .orElseThrow(() -> new CategoryNotFoundException("Category not found with name: " + name));
     }
 
     public Category saveCategory(Category category) {
@@ -37,7 +38,7 @@ public class CategoryService {
 
     public void deleteCategory(Long id) {
         if (!categoryRepository.existsById(id)) {
-            throw new RuntimeException("Category not found with ID: " + id);
+            throw new CategoryNotFoundException("Category not found with ID: " + id);
         }
         categoryRepository.deleteById(id);
     }
