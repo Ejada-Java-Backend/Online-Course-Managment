@@ -1,9 +1,11 @@
 package com.course.management.Exceptions;
 
-public class OperationNotAllowedException extends RuntimeException{
+import org.springframework.http.HttpStatus;
+
+public class OperationNotAllowedException extends BaseException{
 
     public OperationNotAllowedException(String message)
     {
-        super(message);
+        super(message, HttpStatus.FORBIDDEN);
     }
 }

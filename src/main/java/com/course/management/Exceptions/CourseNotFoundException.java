@@ -1,9 +1,11 @@
 package com.course.management.Exceptions;
 
-public class CourseNotFoundException extends RuntimeException{
+import org.springframework.http.HttpStatus;
+
+public class CourseNotFoundException extends BaseException{
 
     public CourseNotFoundException(String message)
     {
-        super(message);
+        super(message, HttpStatus.NOT_FOUND);
     }
 }

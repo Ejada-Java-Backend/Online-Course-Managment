@@ -1,9 +1,11 @@
 package com.course.management.Exceptions;
 
-public class DuplicateResourceException extends RuntimeException{
+import org.springframework.http.HttpStatus;
+
+public class DuplicateResourceException extends BaseException{
 
     public DuplicateResourceException(String message)
     {
-        super(message);
+        super(message, HttpStatus.CONFLICT);
     }
 }

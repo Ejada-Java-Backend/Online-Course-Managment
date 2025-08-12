@@ -1,9 +1,11 @@
 package com.course.management.Exceptions;
 
-public class DuplicateEmailException extends RuntimeException{
+import org.springframework.http.HttpStatus;
+
+public class DuplicateEmailException extends BaseException{
 
     public DuplicateEmailException(String message)
     {
-        super(message);
+        super(message, HttpStatus.CONFLICT);
     }
 }

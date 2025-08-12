@@ -1,9 +1,11 @@
 package com.course.management.Exceptions;
 
-public class EnrollmentNotFoundException extends RuntimeException{
+import org.springframework.http.HttpStatus;
+
+public class EnrollmentNotFoundException extends BaseException{
 
     public EnrollmentNotFoundException(String message)
     {
-        super(message);
+        super(message, HttpStatus.NOT_FOUND);
     }
 }

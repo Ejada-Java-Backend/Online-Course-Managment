@@ -1,9 +1,11 @@
 package com.course.management.Exceptions;
 
-public class InvalidRequestException extends RuntimeException{
+import org.springframework.http.HttpStatus;
+
+public class InvalidRequestException extends BaseException{
 
     public InvalidRequestException(String message)
     {
-        super(message);
+        super(message, HttpStatus.BAD_REQUEST);
     }
 }

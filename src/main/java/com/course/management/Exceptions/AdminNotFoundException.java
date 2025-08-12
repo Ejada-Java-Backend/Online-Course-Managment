@@ -1,9 +1,11 @@
 package com.course.management.Exceptions;
 
-public class AdminNotFoundException extends RuntimeException{
+import org.springframework.http.HttpStatus;
+
+public class AdminNotFoundException extends BaseException{
 
     public AdminNotFoundException(String message)
     {
-        super(message);
+        super(message, HttpStatus.NOT_FOUND);
     }
 }

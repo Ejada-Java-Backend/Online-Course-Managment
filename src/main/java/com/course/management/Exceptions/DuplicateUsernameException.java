@@ -1,9 +1,11 @@
 package com.course.management.Exceptions;
 
-public class DuplicateUsernameException extends RuntimeException{
+import org.springframework.http.HttpStatus;
+
+public class DuplicateUsernameException extends BaseException{
 
     public DuplicateUsernameException(String message)
     {
-        super(message);
+        super(message, HttpStatus.CONFLICT);
     }
 }

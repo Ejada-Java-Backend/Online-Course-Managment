@@ -1,9 +1,11 @@
 package com.course.management.Exceptions;
 
-public class ReviewNotFoundException extends RuntimeException{
+import org.springframework.http.HttpStatus;
+
+public class ReviewNotFoundException extends BaseException{
 
     public ReviewNotFoundException(String message)
     {
-        super(message);
+        super(message, HttpStatus.NOT_FOUND);
     }
 }

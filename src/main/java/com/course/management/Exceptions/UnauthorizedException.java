@@ -1,9 +1,11 @@
 package com.course.management.Exceptions;
 
-public class UnauthorizedException extends RuntimeException{
+import org.springframework.http.HttpStatus;
+
+public class UnauthorizedException extends BaseException{
 
     public UnauthorizedException(String message)
     {
-        super(message);
+        super(message, HttpStatus.UNAUTHORIZED);
     }
 }
