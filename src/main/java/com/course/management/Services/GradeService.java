@@ -29,7 +29,7 @@ public class GradeService {
         Optional<Course> course=courseRepository.findById(courseId);
         if(!course.isPresent())
         {
-            throw new CourseNotFoundException("this course is not found ya ma3rs");
+            throw new CourseNotFoundException("this course is not found ");
         }
 
         if (limit <= 0) {

@@ -1,5 +1,6 @@
 package com.course.management.Controller;
 
+import com.course.management.Models.Grade;
 import com.course.management.Models.Student;
 import com.course.management.Repositories.GradeRepository;
 import com.course.management.Services.GradeService;
