@@ -1,8 +1,8 @@
 package com.course.management.Services;
 
 import com.course.management.Models.Enrollment;
-import com.course.management.Models.EnrollmentStatus;
-import com.course.management.Models.SemesterTerm;
+import com.course.management.Enum.EnrollmentStatusEnum;
+import com.course.management.Enum.SemesterTermEnum;
 import com.course.management.Repositories.EnrollmentRepository;
 import com.course.management.Exceptions.EnrollmentNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,11 +52,11 @@ public class EnrollmentService {
         return enrollment;
     }
 
-    public List<Enrollment> getEnrollmentsByTerm(SemesterTerm term) {
+    public List<Enrollment> getEnrollmentsByTerm(SemesterTermEnum term) {
         return enrollmentRepository.findByTerm(term);
     }
 
-    public List<Enrollment> getEnrollmentsByStudentAndTerm(Long studentId, SemesterTerm term) {
+    public List<Enrollment> getEnrollmentsByStudentAndTerm(Long studentId, SemesterTermEnum term) {
         return enrollmentRepository.findByStudentIdAndTerm(studentId, term);
     }
 
@@ -68,7 +68,7 @@ public class EnrollmentService {
         return enrollmentRepository.countDistinctStudentsEnrolledInCourse(courseId);
     }
 
-    public Enrollment updateStatus(Long enrollmentId, EnrollmentStatus status) {
+    public Enrollment updateStatus(Long enrollmentId, EnrollmentStatusEnum status) {
         Enrollment enrollment = enrollmentRepository.findById(enrollmentId)
                 .orElseThrow(() -> new EnrollmentNotFoundException("Enrollment not found with ID: " + enrollmentId));
         enrollment.setStatus(status);

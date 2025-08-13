@@ -1,5 +1,6 @@
 package com.course.management.Services;
 
+import com.course.management.DTO.StudentGradeDTO;
 import com.course.management.Exceptions.CourseNotFoundException;
 import com.course.management.Models.Course;
 import com.course.management.Models.Student;
@@ -24,7 +25,7 @@ public class GradeService {
         this.courseRepository=courseRepository;
     }
 
-    public List<Student> getTopNStudentsByCourse(Long courseId, int limit) {
+    public List<StudentGradeDTO> getTopNStudentsByCourse(Long courseId, int limit) {
 
         Optional<Course> course=courseRepository.findById(courseId);
         if(!course.isPresent())

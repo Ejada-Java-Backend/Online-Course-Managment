@@ -1,8 +1,8 @@
 package com.course.management.Controller;
 
 import com.course.management.Models.Enrollment;
-import com.course.management.Models.EnrollmentStatus;
-import com.course.management.Models.SemesterTerm;
+import com.course.management.Enum.EnrollmentStatusEnum;
+import com.course.management.Enum.SemesterTermEnum;
 import com.course.management.Services.EnrollmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -71,14 +71,14 @@ public class EnrollmentController {
     }
 
     @GetMapping("/term")
-    public ResponseEntity<List<Enrollment>> getEnrollmentsByTerm(@RequestParam SemesterTerm term) {
+    public ResponseEntity<List<Enrollment>> getEnrollmentsByTerm(@RequestParam SemesterTermEnum term) {
         List<Enrollment> enrollments = enrollmentService.getEnrollmentsByTerm(term);
         return ResponseEntity.ok(enrollments);
     }
 
     @GetMapping("/student/{studentId}/term")
     public ResponseEntity<List<Enrollment>> getEnrollmentsByStudentAndTerm(@PathVariable Long studentId,
-                                                                           @RequestParam SemesterTerm term) {
+                                                                           @RequestParam SemesterTermEnum term) {
         List<Enrollment> enrollments = enrollmentService.getEnrollmentsByStudentAndTerm(studentId, term);
         return ResponseEntity.ok(enrollments);
     }
@@ -96,7 +96,7 @@ public class EnrollmentController {
     }
 
     @PatchMapping("/{id}/status")
-    public ResponseEntity<Enrollment> updateStatus(@PathVariable Long id, @RequestParam EnrollmentStatus status) {
+    public ResponseEntity<Enrollment> updateStatus(@PathVariable Long id, @RequestParam EnrollmentStatusEnum status) {
         Enrollment updated = enrollmentService.updateStatus(id, status);
         return ResponseEntity.ok(updated);
     }

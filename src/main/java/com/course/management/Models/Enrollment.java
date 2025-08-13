@@ -1,5 +1,7 @@
 package com.course.management.Models;
 
+import com.course.management.Enum.EnrollmentStatusEnum;
+import com.course.management.Enum.SemesterTermEnum;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
@@ -29,13 +31,13 @@ public class Enrollment {
     private Course course;
 
     @Enumerated(EnumType.STRING)
-    private SemesterTerm term;
+    private SemesterTermEnum term;
 
     @Column(nullable = false)
     private LocalDate enrolledAt;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private EnrollmentStatus status;
+    private EnrollmentStatusEnum status;
 
 }

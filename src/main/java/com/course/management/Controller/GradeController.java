@@ -1,5 +1,6 @@
 package com.course.management.Controller;
 
+import com.course.management.DTO.StudentGradeDTO;
 import com.course.management.Models.Grade;
 import com.course.management.Models.Student;
 import com.course.management.Repositories.GradeRepository;
@@ -19,7 +20,7 @@ public class GradeController {
     }
 
     @GetMapping("/{courseId}/top-students")
-    public List<Student> getTopStudents(@PathVariable Long courseId, @RequestParam int limit) {
+    public List<StudentGradeDTO> getTopStudents(@PathVariable Long courseId, @RequestParam int limit) {
         return gradeService.getTopNStudentsByCourse(courseId, limit);
     }
 

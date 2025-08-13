@@ -1,7 +1,7 @@
 package com.course.management.Repositories;
 
 import com.course.management.Models.Enrollment;
-import com.course.management.Models.SemesterTerm;
+import com.course.management.Enum.SemesterTermEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,9 +18,9 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment,Long> {
 
     Enrollment findByStudentIdAndCourseId(Long studentId, Long courseId);
 
-    List<Enrollment> findByTerm(SemesterTerm term);
+    List<Enrollment> findByTerm(SemesterTermEnum term);
 
-    List<Enrollment> findByStudentIdAndTerm(Long studentId, SemesterTerm term);
+    List<Enrollment> findByStudentIdAndTerm(Long studentId, SemesterTermEnum term);
 
     @Query("select count(e) from Enrollment e where e.student.id = :studentId")
     long countEnrollmentsByStudentId(@Param("studentId") Long studentId);
