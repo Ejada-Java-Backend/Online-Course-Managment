@@ -1,5 +1,7 @@
 package com.course.management.Services;
 
+import com.course.management.Exceptions.CourseNotFoundException;
+import com.course.management.Models.Course;
 import com.course.management.Models.Student;
 import com.course.management.Repositories.CourseRepository;
 import com.course.management.Repositories.GradeRepository;
@@ -8,18 +10,27 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class GradeService {
     private final GradeRepository gradeRepository;
+    private final CourseRepository courseRepository;
 
     @Autowired
-    public GradeService(GradeRepository gradeRepository) {
+    public GradeService(GradeRepository gradeRepository,CourseRepository courseRepository) {
 
         this.gradeRepository = gradeRepository;
+        this.courseRepository=courseRepository;
     }
 
     public List<Student> getTopNStudentsByCourse(Long courseId, int limit) {
+
+        Optional<Course> course=courseRepository.findById(courseId);
+        if(!course.isPresent())
+        {
+            throw new CourseNotFoundException("this course is not found ya ma3rs");
+        }
 
         if (limit <= 0) {
             throw new IllegalArgumentException("Limit must be greater than zero");
