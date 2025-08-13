@@ -9,6 +9,7 @@ import com.course.management.Repositories.CourseRepository;
 import com.course.management.Repositories.GradeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public class GradeService {
         this.gradeRepository = gradeRepository;
         this.courseRepository=courseRepository;
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     public List<StudentGradeDTO> getTopNStudentsByCourse(Long courseId, int limit) {
 
         Optional<Course> course=courseRepository.findById(courseId);

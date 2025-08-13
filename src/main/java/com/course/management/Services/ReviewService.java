@@ -4,6 +4,7 @@ import com.course.management.Models.Review;
 import com.course.management.Repositories.ReviewRepository;
 import com.course.management.Exceptions.ReviewNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -54,7 +55,7 @@ public class ReviewService {
     public Review saveReview(Review review) {
         return reviewRepository.save(review);
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteReview(Long id) {
         if (!reviewRepository.existsById(id)) {
             throw new ReviewNotFoundException("Review not found with ID: " + id);

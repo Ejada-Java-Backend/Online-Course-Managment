@@ -6,6 +6,7 @@ import com.course.management.Models.Course;
 import com.course.management.Repositories.CourseRepository;
 import com.course.management.Exceptions.CourseNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -49,11 +50,11 @@ public class CourseService {
     public List<Course> getCoursesWithMinEnrollments(int minStudents) {
         return courseRepository.findByMinEnrollments(minStudents);
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     public Course saveCourse(Course course) {
         return courseRepository.save(course);
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteCourse(Long id) {
         if (!courseRepository.existsById(id)) {
             throw new CourseNotFoundException("Course not found with ID: " + id);

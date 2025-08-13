@@ -6,6 +6,7 @@ import com.course.management.Exceptions.AdminNotFoundException;
 import com.course.management.Exceptions.DuplicateUsernameException;
 import com.course.management.Exceptions.DuplicateEmailException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,38 +20,38 @@ public class AdminService {
     public AdminService(AdminRepository adminRepository) {
         this.adminRepository = adminRepository;
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     public List<Admin> getAllAdmins() {
         return adminRepository.findAll();
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     public Admin getAdminById(Long id) {
         return adminRepository.findById(id)
                 .orElseThrow(() -> new AdminNotFoundException("Admin not found with ID: " + id));
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     public Admin getAdminByUsername(String username) {
         return adminRepository.findByUsername(username)
                 .orElseThrow(() -> new AdminNotFoundException("Admin not found with username: " + username));
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     public Admin getAdminByEmail(String email) {
         return adminRepository.findByEmail(email)
                 .orElseThrow(() -> new AdminNotFoundException("Admin not found with email: " + email));
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     public boolean existsByUsername(String username) {
         return adminRepository.existsByUsername(username);
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     public boolean existsByEmail(String email) {
         return adminRepository.existsByEmail(email);
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     public List<Admin> getAdminsByCourseCategory(Long categoryId) {
         return adminRepository.findAdminsByCourseCategory(categoryId);
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     public Admin saveAdmin(Admin admin) {
         if (adminRepository.existsByUsername(admin.getUsername())) {
             throw new DuplicateUsernameException("Username already exists: " + admin.getUsername());
@@ -60,7 +61,7 @@ public class AdminService {
         }
         return adminRepository.save(admin);
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteAdmin(Long id) {
         if (!adminRepository.existsById(id)) {
             throw new AdminNotFoundException("Admin not found with ID: " + id);
