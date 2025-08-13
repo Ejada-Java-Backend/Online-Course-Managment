@@ -24,5 +24,14 @@ public interface CourseRepository extends JpaRepository<Course,Long> {
     @Query("select c from Course c where size(c.enrollments) > :minStudents")
     List<Course> findByMinEnrollments(@Param("minStudents") int minStudents);
 
+    List<Course>findByMark(double mark);
+
+    List<Course> findByMarkGreaterThan(double mark);
+
+    List<Course> findByMarkLessThan(double mark);
+
+    List<Course> findByMarkBetween(double minMark, double maxMark);
+
+
 
 }

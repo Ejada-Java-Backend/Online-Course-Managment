@@ -2,6 +2,7 @@ package com.course.management.Services;
 
 import com.course.management.DTO.StudentGradeDTO;
 import com.course.management.Exceptions.CourseNotFoundException;
+import com.course.management.Exceptions.IllegalArgumentException;
 import com.course.management.Models.Course;
 import com.course.management.Models.Student;
 import com.course.management.Repositories.CourseRepository;

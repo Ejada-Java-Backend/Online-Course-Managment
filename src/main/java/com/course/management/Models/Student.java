@@ -1,5 +1,6 @@
 package com.course.management.Models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -21,9 +22,14 @@ import java.util.List;
 public class Student extends User{
 
     @OneToMany(mappedBy = "student")
+    @JsonManagedReference("student-enrollments")
     private List<Enrollment> enrollments=new ArrayList<>();
+
     @OneToMany(mappedBy = "student")
+    @JsonManagedReference("student-reviews")
     private List<Review> reviews=new ArrayList<>();
+
     @OneToMany(mappedBy = "student")
+    @JsonManagedReference("student-grades")
     private List<Grade> grades=new ArrayList<>();
 }

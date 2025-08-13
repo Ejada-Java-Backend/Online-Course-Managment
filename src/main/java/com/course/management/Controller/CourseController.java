@@ -87,5 +87,26 @@ public class CourseController {
         courseService.deleteCourse(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/byMark")
+    public List<Course> getCoursesByMark(@RequestParam double mark) {
+        return courseService.getCoursesByMark(mark);
+    }
+
+    @GetMapping("/greaterThanMark")
+    public List<Course> getCoursesGreaterThanMark(@RequestParam double mark) {
+        return courseService.getCoursesGreaterThanMark(mark);
+    }
+
+    @GetMapping("/smallerThanMark")
+    public List<Course> getCoursesSmallerThanMark(@RequestParam double mark) {
+        return courseService.getCoursesSmallerThanMark(mark);
+    }
+
+    @GetMapping("/betweenMarks")
+    public List<Course> getCoursesBetweenMarks(@RequestParam double minMark,@RequestParam double maxMark) {
+        return courseService.getCoursesBetweenMarks(minMark, maxMark);
+    }
+
 }
 

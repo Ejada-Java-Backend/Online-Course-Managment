@@ -1,5 +1,7 @@
 package com.course.management.Services;
 
+import com.course.management.Exceptions.CoursesNotFoundException;
+import com.course.management.Exceptions.IllegalArgumentException;
 import com.course.management.Models.Course;
 import com.course.management.Repositories.CourseRepository;
 import com.course.management.Exceptions.CourseNotFoundException;
@@ -58,4 +60,42 @@ public class CourseService {
         }
         courseRepository.deleteById(id);
     }
+
+    public List<Course> getCoursesByMark(double mark)
+    {
+        if(mark<=0)
+            throw new IllegalArgumentException("the mark must be greater than 0 ");
+
+        return courseRepository.findByMark(mark);
+    }
+    public List<Course> getCoursesGreaterThanMark(double mark)
+    {
+       return courseRepository.findByMarkGreaterThan(mark);
+    }
+
+    public List<Course> getCoursesSmallerThanMark(double mark)
+    {
+        if(mark<=0)
+        throw new IllegalArgumentException("the mark must be greater than 0 ");
+
+        return courseRepository.findByMarkLessThan(mark);
+
+
+    }
+
+    public List<Course> getCoursesBetweenMarks(double minMark,double maxMark)
+    {
+        if(minMark<=0)
+            throw new IllegalArgumentException("the min mark must be greater than 0 ");
+
+        if (maxMark <= minMark)
+            throw new IllegalArgumentException("The max mark must be greater than the min mark");
+
+
+        return courseRepository.findByMarkBetween(minMark,maxMark);
+
+
+
+    }
+
 }

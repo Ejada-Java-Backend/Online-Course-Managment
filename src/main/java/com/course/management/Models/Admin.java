@@ -1,5 +1,6 @@
 package com.course.management.Models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -18,6 +19,7 @@ import java.util.List;
 @Table(name = "admins")
 public class Admin extends User{
     @OneToMany(mappedBy = "publisher")
+    @JsonManagedReference("admin-courses")
     private List<Course> courses=new ArrayList<>();
 
 

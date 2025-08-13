@@ -1,5 +1,6 @@
 package com.course.management.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
@@ -19,10 +20,12 @@ public class Review {
 
     @ManyToOne
     @JoinColumn(name = "student_id", nullable = false)
+    @JsonBackReference("student-reviews")
     private Student student;
 
     @ManyToOne
     @JoinColumn(name = "course_id", nullable = false)
+    @JsonBackReference("course-reviews")
     private Course course;
 
     @Column(nullable = false)

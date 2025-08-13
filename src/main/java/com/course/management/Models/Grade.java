@@ -1,5 +1,6 @@
 package com.course.management.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,10 +18,12 @@ public class Grade {
 
     @ManyToOne
     @JoinColumn(name = "student_id", nullable = false)
+    @JsonBackReference("student-grades")
     private Student student;
 
     @ManyToOne
     @JoinColumn(name = "course_id", nullable = false)
+    @JsonBackReference("course-grades")
     private Course course;
 
     @Column(nullable = false)

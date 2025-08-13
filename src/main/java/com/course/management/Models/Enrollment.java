@@ -2,6 +2,7 @@ package com.course.management.Models;
 
 import com.course.management.Enum.EnrollmentStatusEnum;
 import com.course.management.Enum.SemesterTermEnum;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
@@ -24,10 +25,12 @@ public class Enrollment {
 
     @ManyToOne
     @JoinColumn(name = "student_id", nullable = false)
+    @JsonBackReference("student-enrollments")
     private Student student;
 
     @ManyToOne
     @JoinColumn(name = "course_id", nullable = false)
+    @JsonBackReference("course-enrollments")
     private Course course;
 
     @Enumerated(EnumType.STRING)
