@@ -1,5 +1,6 @@
 package com.course.management.Services;
 
+import com.course.management.DTO.CourseStatsDTO;
 import com.course.management.DTO.StudentGradeDTO;
 import com.course.management.Exceptions.CourseNotFoundException;
 import com.course.management.Exceptions.IllegalArgumentException;
@@ -41,4 +42,29 @@ public class GradeService {
 
         return gradeRepository.findTopStudentsByCourseId(courseId, PageRequest.of(0, limit));
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    public CourseStatsDTO getCourseStats(Long courseId) {
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new CourseNotFoundException("Course not found with ID: " + courseId));
+
+        Long studentCount = gradeRepository.countDistinctStudentsByCourseId(courseId);
+        Double mean = gradeRepository.findAverageScoreByCourseId(courseId);
+        if (mean == null) mean = 0.0;
+
+        List<Double> scores = gradeRepository.findScoresByCourseIdOrderByScore(courseId);
+
+        double median = 0.0;
+        if (!scores.isEmpty()) {
+            int size = scores.size();
+            if (size % 2 == 0) {
+                median = (scores.get(size / 2 - 1) + scores.get(size / 2)) / 2;
+            } else {
+                median = scores.get(size / 2);
+            }
+        }
+
+        return new CourseStatsDTO(course.getId(), course.getTitle(), studentCount, mean, median);
+    }
+
 }

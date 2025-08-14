@@ -33,7 +33,11 @@ public interface GradeRepository extends JpaRepository<Grade,Long> {
     List<StudentGradeDTO>findTopStudentsByCourseId(@Param("courseId") Long courseId, Pageable pageable);
 
 
+    @Query("SELECT COUNT(DISTINCT g.student.id) FROM Grade g WHERE g.course.id = :courseId")
+    Long countDistinctStudentsByCourseId(@Param("courseId") Long courseId);
 
+    @Query("SELECT g.score FROM Grade g WHERE g.course.id = :courseId ORDER BY g.score ASC")
+    List<Double> findScoresByCourseIdOrderByScore(@Param("courseId") Long courseId);
 
 
 
