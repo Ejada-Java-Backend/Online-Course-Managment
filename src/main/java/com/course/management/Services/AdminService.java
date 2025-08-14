@@ -24,6 +24,12 @@ public class AdminService {
     public List<Admin> getAllAdmins() {
         return adminRepository.findAll();
     }
+    
+    @PreAuthorize("hasRole('ADMIN')")
+    public Optional<Long> getAdminIdByUsername(String username) {
+        return adminRepository.findIdByUsername(username);
+    }
+    
     @PreAuthorize("hasRole('ADMIN')")
     public Admin getAdminById(Long id) {
         return adminRepository.findById(id)
