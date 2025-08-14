@@ -20,6 +20,9 @@ public interface AdminRepository extends JpaRepository<Admin,Long> {
 
     boolean existsByEmail(String email);
 
+Optional<Long> findIdByUsername(String username);
+
+
     @EntityGraph(attributePaths = {"courses"})
     Optional<Admin> findById(Long id);
 
