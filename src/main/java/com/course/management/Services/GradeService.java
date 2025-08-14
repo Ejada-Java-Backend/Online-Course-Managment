@@ -88,7 +88,6 @@ public class GradeService {
                 ));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     public double calculateGPA(Long studentId, int year) {
         List<Enrollment> enrollments = enrollmentRepository.findByStudentAndYear(studentId, year);
 
