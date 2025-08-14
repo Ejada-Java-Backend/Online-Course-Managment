@@ -20,6 +20,12 @@ public class AdminController {
         this.adminService = adminService;
     }
 
+       @GetMapping("/id/{username}")
+    public Long getAdminIdByUsername(@PathVariable String username) {
+        Optional<Long> adminIdOpt = adminService.getAdminIdByUsername(username);
+        return adminIdOpt.orElse(null); 
+    }
+
     @GetMapping
     public ResponseEntity<List<Admin>> getAllAdmins() {
         return ResponseEntity.ok(adminService.getAllAdmins());
