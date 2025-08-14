@@ -30,5 +30,18 @@ public class GradeController {
     public CourseStatsDTO getCourseStats(@PathVariable Long courseId) {
         return gradeService.getCourseStats(courseId);
     }
+    @GetMapping("/student/{studentId}")
+    public List<Grade> getGradesByStudent(@PathVariable Long studentId) {
+        return gradeService.getGradesByStudent(studentId);
+    }
+
+    @GetMapping("/course/{courseId}")
+    public List<Grade> getGradesByCourse(@PathVariable Long courseId) {
+        return gradeService.getGradesByCourse(courseId);
+    }
+    @GetMapping("/student/{studentId}/course/{courseId}")
+    public Grade getGradeByStudentAndCourse(@PathVariable Long studentId, @PathVariable Long courseId) {
+        return gradeService.getGradeByStudentAndCourse(studentId, courseId);
+    }
 
 }

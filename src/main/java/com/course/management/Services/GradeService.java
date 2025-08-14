@@ -3,8 +3,10 @@ package com.course.management.Services;
 import com.course.management.DTO.CourseStatsDTO;
 import com.course.management.DTO.StudentGradeDTO;
 import com.course.management.Exceptions.CourseNotFoundException;
+import com.course.management.Exceptions.GradeNotFoundException;
 import com.course.management.Exceptions.IllegalArgumentException;
 import com.course.management.Models.Course;
+import com.course.management.Models.Grade;
 import com.course.management.Models.Student;
 import com.course.management.Repositories.CourseRepository;
 import com.course.management.Repositories.GradeRepository;
@@ -65,6 +67,21 @@ public class GradeService {
         }
 
         return new CourseStatsDTO(course.getId(), course.getTitle(), studentCount, mean, median);
+    }
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<Grade> getGradesByStudent(Long studentId) {
+        return gradeRepository.findByStudentId(studentId);
+    }
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<Grade> getGradesByCourse(Long courseId) {
+        return gradeRepository.findByCourseId(courseId);
+    }
+    @PreAuthorize("hasRole('ADMIN')")
+    public Grade getGradeByStudentAndCourse(Long studentId, Long courseId) {
+        return gradeRepository.findByStudentIdAndCourseId(studentId, courseId)
+                .orElseThrow(() -> new GradeNotFoundException(
+                        "No grade found for student ID: " + studentId + " in course ID: " + courseId
+                ));
     }
 
 }
