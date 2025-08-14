@@ -20,7 +20,7 @@ public class AdminController {
         this.adminService = adminService;
     }
 
-       @GetMapping("/id/{username}")
+       @GetMapping("/{username}")
     public Long getAdminIdByUsername(@PathVariable String username) {
         Optional<Long> adminIdOpt = adminService.getAdminIdByUsername(username);
         return adminIdOpt.orElse(null); 
