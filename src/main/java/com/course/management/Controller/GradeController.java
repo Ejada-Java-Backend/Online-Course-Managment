@@ -44,4 +44,9 @@ public class GradeController {
         return gradeService.getGradeByStudentAndCourse(studentId, courseId);
     }
 
+    @GetMapping("/{id}/gpa")
+    public double getStudentGPA(@PathVariable Long id, @RequestParam int year) {
+        return gradeService.calculateGPA(id, year);
+    }
+
 }

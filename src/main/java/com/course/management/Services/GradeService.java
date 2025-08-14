@@ -6,9 +6,11 @@ import com.course.management.Exceptions.CourseNotFoundException;
 import com.course.management.Exceptions.GradeNotFoundException;
 import com.course.management.Exceptions.IllegalArgumentException;
 import com.course.management.Models.Course;
+import com.course.management.Models.Enrollment;
 import com.course.management.Models.Grade;
 import com.course.management.Models.Student;
 import com.course.management.Repositories.CourseRepository;
+import com.course.management.Repositories.EnrollmentRepository;
 import com.course.management.Repositories.GradeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -22,12 +24,14 @@ import java.util.Optional;
 public class GradeService {
     private final GradeRepository gradeRepository;
     private final CourseRepository courseRepository;
+    private final EnrollmentRepository enrollmentRepository;
 
     @Autowired
-    public GradeService(GradeRepository gradeRepository,CourseRepository courseRepository) {
+    public GradeService(GradeRepository gradeRepository,CourseRepository courseRepository, EnrollmentRepository enrollmentRepository) {
 
         this.gradeRepository = gradeRepository;
         this.courseRepository=courseRepository;
+        this.enrollmentRepository = enrollmentRepository;
     }
     @PreAuthorize("hasRole('ADMIN')")
     public List<StudentGradeDTO> getTopNStudentsByCourse(Long courseId, int limit) {
@@ -82,6 +86,30 @@ public class GradeService {
                 .orElseThrow(() -> new GradeNotFoundException(
                         "No grade found for student ID: " + studentId + " in course ID: " + courseId
                 ));
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    public double calculateGPA(Long studentId, int year) {
+        List<Enrollment> enrollments = enrollmentRepository.findByStudentAndYear(studentId, year);
+
+        double totalScore = 0;
+        int courseCount = 0;
+
+        for (Enrollment enrollment : enrollments) {
+            // Assuming each course has exactly one grade for the student
+            for (Grade grade : enrollment.getCourse().getGrades()) {
+                if (grade.getStudent().getId() == studentId) {
+                    totalScore += grade.getScore();
+                    courseCount++;
+                }
+            }
+        }
+
+        if (courseCount == 0) {
+            return 0.0;
+        }
+
+        return totalScore / courseCount;
     }
 
 }

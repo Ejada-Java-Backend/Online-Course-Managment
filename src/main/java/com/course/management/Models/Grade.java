@@ -29,7 +29,4 @@ public class Grade {
     @Column(nullable = false)
     private double score;
 
-
-
-
 }

@@ -25,7 +25,6 @@ public interface GradeRepository extends JpaRepository<Grade,Long> {
     Double findAverageScoreByStudentId(@Param("studentId") Long studentId);
 
 
-
     @Query("select avg(g.score) from Grade g where g.course.id = :courseId")
     Double findAverageScoreByCourseId(@Param("courseId") Long courseId);
 
@@ -38,7 +37,6 @@ public interface GradeRepository extends JpaRepository<Grade,Long> {
 
     @Query("SELECT g.score FROM Grade g WHERE g.course.id = :courseId ORDER BY g.score ASC")
     List<Double> findScoresByCourseIdOrderByScore(@Param("courseId") Long courseId);
-
 
 
 
