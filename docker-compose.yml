@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  # MySQL Database Service
+  mysql:
+    image: mysql:8.0
+    container_name: course-management-db
+    environment:
+      MYSQL_ROOT_PASSWORD: 30072004Nn!
+      MYSQL_DATABASE: backend
+      MYSQL_USER: course_user
+      MYSQL_PASSWORD: course_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    networks:
+      - course-management-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  # Spring Boot Application Service
+  app:
+    build: .
+    container_name: course-management-app
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/backend?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 30072004Nn!
+      JWT_SECRET: thisIsASecretKeyThatShouldBeLongEnoughForHS256Algorithm12345
+      JWT_EXPIRATION_MS: 86400000
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - course-management-network
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+
+networks:
+  course-management-network:
+    driver: bridge

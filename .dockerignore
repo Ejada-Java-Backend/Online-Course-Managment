@@ -1,0 +1,27 @@
+# Exclude files and directories that shouldn't be copied to Docker image
+target/
+.git/
+.gitignore
+README.md
+*.md
+.mvn/wrapper/maven-wrapper.jar
+!.mvn/wrapper/maven-wrapper.properties
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.swp
+*~
+
+# Local development files
+application-local.properties
